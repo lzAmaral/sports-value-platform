@@ -1,0 +1,25 @@
+{
+  "name": "sports-value-platform",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/api",
+    "apps/web"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,green \"npm run dev -w @sports-value/api\" \"npm run dev -w @sports-value/web\"",
+    "dev:api": "npm run dev -w @sports-value/api",
+    "dev:web": "npm run dev -w @sports-value/web",
+    "build": "npm run build -w @sports-value/api && npm run build -w @sports-value/web",
+    "test": "npm run test -w @sports-value/api",
+    "lint": "npm run lint -w @sports-value/api && npm run lint -w @sports-value/web",
+    "infra:up": "docker compose -f infrastructure/compose.yaml up -d",
+    "infra:down": "docker compose -f infrastructure/compose.yaml down"
+  },
+  "engines": {
+    "node": ">=22 <25"
+  },
+  "devDependencies": {
+    "concurrently": "10.0.5"
+  }
+}

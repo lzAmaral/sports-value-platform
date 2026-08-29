@@ -30,6 +30,10 @@ pdm.lock
 uv.lock
 .pdm-python
 .pdm.toml
+node_modules/
+.next/
+*.tsbuildinfo
+npm-debug.log*
 
 # Documentation
 site/

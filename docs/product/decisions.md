@@ -33,3 +33,20 @@ Status: accepted.
 Scraping may be used only in isolated research where lawful and permitted. The
 production product requires an API contract covering commercial display and
 derived analytics.
+
+## ADR-005 — monorepo with separated runtimes
+
+Status: accepted.
+
+The repository contains a NestJS API in `apps/api`, a Next.js frontend in
+`apps/web` and the Python analytics package at the root. They share versioning
+and documentation but run as separate processes. This avoids rewriting the
+statistical engine in TypeScript and allows each runtime to scale independently.
+
+## ADR-006 — PostgreSQL as system of record
+
+Status: accepted.
+
+PostgreSQL will store canonical events, observed odds, model versions,
+immutable signals, users and subscriptions. Redis is reserved for queues,
+short-lived cache and job coordination; it is not the source of truth.

@@ -17,6 +17,7 @@ bookmaker, hold customer funds or place bets automatically in the MVP.
 - [Legal and compliance boundaries](docs/product/legal-and-compliance.md)
 - [Delivery roadmap](docs/product/roadmap.md)
 - [Architecture decisions](docs/product/decisions.md)
+- [Local development](docs/development/local-setup.md)
 
 ## Technical foundation
 
