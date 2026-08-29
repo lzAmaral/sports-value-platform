@@ -35,6 +35,11 @@
 
 # sports-betting
 
+> This fork is the analytics core of the **Sports Value Platform**. Product
+> decisions, architecture, data licensing notes and the delivery roadmap live
+> in [PRODUCT.md](PRODUCT.md). The upstream project remains credited and its
+> MIT license is preserved.
+
 [![ci][ci badge]][ci] [![doc][doc badge]][doc]
 
 | Category          | Tools    |

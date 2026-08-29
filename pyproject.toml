@@ -53,6 +53,9 @@ sportsbet = "sportsbet.cli:main"
 sportsbet-mcp = "sportsbet.mcp:run"
 
 [project.optional-dependencies]
+football = [
+    "penaltyblog>=1.12,<2",
+]
 mcp = [
     "mcp>=1.2",
 ]
