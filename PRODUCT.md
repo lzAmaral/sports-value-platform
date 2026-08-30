@@ -1,40 +1,48 @@
-# Sports Value Platform
+# Produto Sports Value Platform
 
-This repository is a fork of `georgedouzas/sports-betting` and will be used as
-the analytics core of a commercial sports intelligence product. The first
-vertical is pre-match football analysis. Basketball can reuse the same core in
-a later milestone.
+## Objetivo
 
-The product will estimate probabilities, compare them with market odds and
-publish traceable value-bet signals. It will not promise profit, act as a
-bookmaker, hold customer funds or place bets automatically in the MVP.
+Construir uma plataforma de inteligência esportiva que estime probabilidades,
+compare essas probabilidades com preços de mercado licenciados e publique
+análises rastreáveis. Futebol pré-jogo é a primeira vertical; basquete poderá
+reaproveitar os mesmos contratos posteriormente.
 
-## Product documentation
+## Limites do MVP
 
-- [Vision and scope](docs/product/vision.md)
-- [Target architecture](docs/product/architecture.md)
-- [Odds and data strategy](docs/product/data-and-odds.md)
-- [Legal and compliance boundaries](docs/product/legal-and-compliance.md)
-- [Delivery roadmap](docs/product/roadmap.md)
-- [Architecture decisions](docs/product/decisions.md)
-- [Local development](docs/development/local-setup.md)
-- [Engineering and TypeScript standard](docs/engineering/architecture-standards.md)
-- [Opta provider assessment](docs/product/provider-research/opta.md)
+- Não aceitar apostas ou depósitos.
+- Não manter saldo de clientes.
+- Não automatizar sites de casas de apostas.
+- Não prometer lucro ou apagar resultados negativos.
+- Não redistribuir dados de fornecedores sem autorização contratual.
 
-## Technical foundation
+## Estado atual
 
-- `sports-betting`: data contracts, loaders, backtesting, estimators and
-  value-bet selection.
-- `penaltyblog`: optional football modelling engine for Poisson, Dixon-Coles,
-  implied probabilities and related domain calculations.
-- A licensed odds provider: current and historical bookmaker prices under a
-  contract that permits the intended commercial use.
+O primeiro corte vertical está funcional: Next.js consulta nossa API NestJS,
+que usa um adaptador para transformar partidas brasileiras da API-Football em
+um contrato canônico. O plano gratuito serve para validar dados históricos de
+2022 a 2024; não fornece odds do Brasileirão no teste realizado.
 
-Install the football modelling extra during development:
+## Base técnica
 
-```bash
-pip install -e '.[football]'
-```
+- `apps/web`: interface Next.js.
+- `apps/api`: API NestJS e adaptadores de provedores.
+- `src/sportsbet`: fontes, carregadores, avaliação e backtest em Python.
+- `penaltyblog`: futuro mecanismo de modelos de futebol atrás de adapter.
+- PostgreSQL: fonte de verdade para eventos, odds, modelos e sinais.
+- Redis: filas, locks, deduplicação e cache de curta duração.
 
-The original MIT copyright and license must remain in distributions that
-contain this code.
+## Índice
+
+- [Visão e escopo](docs/product/vision.md)
+- [Arquitetura](docs/product/architecture.md)
+- [Estratégia de dados e odds](docs/product/data-and-odds.md)
+- [Limites legais e de conformidade](docs/product/legal-and-compliance.md)
+- [Roadmap](docs/product/roadmap.md)
+- [Decisões arquiteturais](docs/product/decisions.md)
+- [Ambiente local](docs/development/local-setup.md)
+- [Padrões de engenharia](docs/engineering/architecture-standards.md)
+- [Pesquisa sobre Opta](docs/product/provider-research/opta.md)
+- [Guia da API-Football](docs/product/provider-research/api-football-guide.md)
+
+O uso de código derivado do `sports-betting` continua sujeito à licença MIT e
+às atribuições registradas no repositório.

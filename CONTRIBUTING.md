@@ -1,113 +1,90 @@
-# Contributing
+# Como contribuir
 
-Contributions are welcome, and they are greatly appreciated.
+Este documento define o acordo de trabalho entre os colaboradores da Sports
+Value Platform. Mudanças devem ser pequenas, revisáveis e protegidas por testes
+proporcionais ao risco.
 
-## Tasks
+## Preparação
 
-This project uses [nox](https://nox.thea.codes/en/stable/) to run development tasks. Please check the `noxfile.py` at the root of
-the project for more details. You can run any of the following commands and subcommands that corresponds to a particular task:
-
-### Documentation
-
-- `pdm docs serve` or `pdm docs`: Serve the documentation.
-- `pdm docs build`: Build locally the documentation.
-
-### Formatting
-
-- `pdm formatting all` or `pdm formatting`: Format both the code and docstrings.
-  - `pdm formatting code`: Format only the code.
-  - `pdm formatting docstrings`: Format only the docstrings.
-
-### Checks
-
-- `pdm checks all` or `pdm checks`: Run all checks.
-  - `pdm checks quality`: Check only code quality.
-  - `pdm checks types`: Check only type annotations.
-  - `pdm checks dependencies`: Check only for vulnerabilities in dependencies.
-  - `pdm checks security`: Run only security checks with bandit.
-  - `pdm checks docs`: Check only docstring coverage with interrogate.
-
-### Tests
-
-- `pdm tests`: Run the tests.
-
-### Changelog
-
-- `pdm changelog`: Build the changelog.
-
-### Release
-
-- `pdm release`: Release a new Python package with an updated version.
-
-## Development
-
-The next steps should be followed during development:
-
-- `git checkout -b new-branch-name` to create a new branch and then modify the code.
-- `pdm formatting` to auto-format the code and docstrings.
-- `pdm checks` to apply all checks.
-- `pdm tests` to run the tests.
-- `pdm docs serve` if you updated the documentation or the project dependencies to check that everything looks as expected.
-
-## Commit message convention
-
-Commit messages follow conventions based on the [Angular
-style](https://gist.github.com/stephenparish/9941e89d80e2bc58a153#format-of-the-commit-message).
-
-### Structure
+Siga o [guia do ambiente local](docs/development/local-setup.md). Antes de
+começar, confirme que `main` está atualizada e crie uma branch curta:
 
 ```bash
-<type>(<scope>): <subject>
-
-<body>
-
-<footer>
+git switch main
+git pull --ff-only
+git switch -c feat/nome-curto-da-entrega
 ```
 
-### Example
+Prefixos recomendados: `feat/`, `fix/`, `docs/`, `refactor/` e `chore/`.
+
+## Durante o desenvolvimento
+
+- Não commite `.env`, chaves, dados pessoais ou payloads licenciados.
+- Não misture correção não relacionada na mesma branch.
+- Atualize documentação quando alterar contrato, arquitetura ou configuração.
+- Adicione testes para regras e contratos novos.
+- Confira `git diff` e `git status` antes de preparar o commit.
+
+Validação mínima da aplicação:
+
+```bash
+npm run lint
+npm test
+npm run build
+```
+
+Validação completa do núcleo Python:
+
+```bash
+pdm checks
+pdm tests
+pdm docs build
+```
+
+## Commits
+
+Usamos mensagens no formato Conventional Commits:
 
 ```text
-feat(directive): A new feature of code
-
-A description of the new feature.
-It contains **important** information.
-
-Issue #10: https://github.com/namespace/project/issues/10
-Related to PR namespace/other-project#15: https://github.com/namespace/other-project/pull/15
+tipo(escopo): resumo no imperativo
 ```
 
-#### Guidelines
+Exemplos:
 
-- Scope and body are optional.
-- Subject and body must be valid Markdown.
-- Body must add trailers at the end, for example issues and PR references or co-authors.
-- Subject must have proper casing, i.e. uppercase for first letter if it makes sense.
-- Subject must have no dot at the end and no punctuation.
-- Type can be:
-  - `feat`: New feature implementation.
-  - `fix`: Bug fix.
-  - `docs`: Documentation changes.
-  - `style`: Code style or format changes.
-  - `refactor`: Changes that are not features or bug fixes.
-  - `tests`: Test additions or corrections.
-  - `chore`: Maintenance code changes.
-
-## Pull Request guidelines
-
-Link to any related issue in the Pull Request message. We also recommend using fixups:
-
-```bash
-git commit --fixup=SHA
+```text
+feat(web): adiciona explorador de partidas brasileiras
+fix(api): trata temporada indisponível do provedor
+docs(git): documenta fluxo de branches e pull requests
+test(api): cobre normalização de fixtures
 ```
 
-Once all the changes are approved, you can squash your commits:
+Tipos aceitos: `feat`, `fix`, `docs`, `test`, `refactor`, `chore`, `ci`, `build`
+e `perf`. O resumo deve ser curto, específico e sem ponto final. Use o corpo
+para explicar motivação e decisões, não para repetir o diff.
+
+Um commit deve representar uma unidade lógica que possa ser entendida e
+revertida isoladamente. Veja o [guia detalhado de Git e
+commits](docs/development/git-workflow.md).
+
+## Pull request
 
 ```bash
-git rebase -i --autosquash master
+git push -u origin feat/nome-curto-da-entrega
+gh pr create --fill
 ```
 
-And force-push:
+O PR deve explicar problema, solução, forma de teste, imagens quando houver
+interface e impactos em dados/configuração. O outro colaborador revisa antes do
+merge. Todos os checks obrigatórios precisam passar.
 
-```bash
-git push -f
+Não use `git push --force` em branches compartilhadas. Quando for realmente
+necessário reescrever sua própria branch, prefira `git push --force-with-lease`.
+
+## Coautoria
+
+Quando duas pessoas contribuírem materialmente para o mesmo commit, adicione ao
+fim da mensagem:
+
+```text
+Co-authored-by: Nome <email-verificado-no-github>
 ```

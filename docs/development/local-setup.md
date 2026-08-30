@@ -1,22 +1,74 @@
-# Local development
+# Desenvolvimento local
 
-## Requirements
+## Requisitos
 
-- Python 3.11–3.13 (tested locally with 3.13.7).
-- Node.js 22 LTS. The machine currently has Node 26; use `.nvmrc` to avoid
-  framework incompatibilities.
-- Docker Desktop with Compose.
+- Node.js 22 LTS.
+- Python 3.11–3.13.
+- Docker Desktop com Compose.
 
-## 1. Environment variables
+## 1. Variáveis de ambiente
 
 ```bash
 cp .env.example .env
 ```
 
-The offline analytics demo and API liveness endpoint require no paid API key.
-Never commit `.env`.
+Crie uma conta gratuita na API-Football e configure a chave somente no arquivo
+local `.env`:
 
-## 2. Python analytics
+```dotenv
+API_FOOTBALL_KEY=sua_chave
+```
+
+Nunca commite `.env`, nunca use o prefixo `NEXT_PUBLIC_` nessa chave e nunca a
+coloque dentro de `apps/web`. A demonstração offline e o endpoint de saúde não
+precisam de chave.
+
+## 2. Aplicações Node.js
+
+```bash
+nvm install 22
+nvm use
+npm install
+```
+
+O NestJS em `apps/api` é a API pública. O Next.js em `apps/web` é a interface.
+O pacote Python continua sendo o mecanismo analítico separado.
+
+## 3. Infraestrutura
+
+```bash
+npm run infra:up
+docker compose -f infrastructure/compose.yaml ps
+```
+
+- PostgreSQL: `localhost:5434`.
+- Redis: `localhost:6379`.
+
+A porta 5434 evita conflito com instalações locais que já usam 5432.
+
+## 4. Executar
+
+```bash
+npm run dev
+```
+
+- Web: <http://localhost:3000>
+- Partidas: <http://localhost:3000/partidas>
+- API: <http://localhost:3001/v1/health>
+- Prontidão com PostgreSQL: <http://localhost:3001/v1/health/ready>
+- Competições: <http://localhost:3001/v1/football/competitions>
+
+Consulta de teste:
+
+```bash
+curl 'http://localhost:3001/v1/football/fixtures?competition=brasileirao-serie-a&season=2024&from=2024-04-13&to=2024-04-14'
+```
+
+No teste de 30 de agosto de 2026, o plano gratuito aceitou temporadas
+brasileiras de 2022 a 2024 e rejeitou 2026. Use 2024 no MVP local enquanto o
+plano da conta não mudar.
+
+## 5. Núcleo Python
 
 ```bash
 python3 -m venv .venv
@@ -29,44 +81,25 @@ python -m sportsbet --help
 python -m pytest
 ```
 
-The `football` extra installs `penaltyblog`.
+O extra `football` instala `penaltyblog`.
 
-## 3. Node applications
-
-```bash
-nvm install 22
-nvm use
-npm install
-```
-
-NestJS is the public API in `apps/api`. Next.js is the user interface in
-`apps/web`. The Python package at the repository root remains the analytics
-engine; a later worker/service adapter will connect it to the API.
-
-## 4. Infrastructure
+## 6. Verificações
 
 ```bash
-npm run infra:up
-docker compose -f infrastructure/compose.yaml ps
+npm run lint
+npm test
+npm run build
 ```
 
-PostgreSQL is available at `localhost:5434`; Redis at `localhost:6379`. Port
-5434 intentionally avoids the PostgreSQL service already using 5432 on this
-development machine.
-
-## 5. Run
+Para desligar somente a infraestrutura:
 
 ```bash
-npm run dev
+npm run infra:down
 ```
 
-- Web: <http://localhost:3000>
-- API liveness: <http://localhost:3001/v1/health>
-- API readiness (includes PostgreSQL): <http://localhost:3001/v1/health/ready>
+## APIs externas
 
-## External APIs
-
-No API is needed for the offline sample. Before production we need contracts
-for statistics and odds. An odds-provider key belongs in `ODDS_API_KEY`; the
-provider must permit commercial display and derived analytics. Do not select a
-provider on technical coverage alone.
+`API_FOOTBALL_KEY` habilita o adaptador brasileiro. `ODDS_API_KEY` é reservado
+ao adaptador The Odds API do núcleo Python. Nenhuma cobertura técnica autoriza
+uso comercial automaticamente: exibição, armazenamento e análises derivadas
+precisam estar permitidos pelo contrato antes do lançamento.
