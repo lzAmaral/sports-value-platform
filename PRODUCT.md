@@ -18,9 +18,9 @@ reaproveitar os mesmos contratos posteriormente.
 ## Estado atual
 
 O primeiro corte vertical está funcional: Next.js consulta nossa API NestJS,
-que usa um adaptador para transformar partidas brasileiras da API-Football em
-um contrato canônico. O plano gratuito serve para validar dados históricos de
-2022 a 2024; não fornece odds do Brasileirão no teste realizado.
+que transforma partidas brasileiras em um contrato canônico. A ESPN fornece as
+partidas da temporada atual e os placares ao vivo. A API-Football complementa
+consultas históricas conforme a cobertura da chave configurada.
 
 ## Base técnica
 

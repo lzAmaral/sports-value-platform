@@ -22,12 +22,12 @@ export default function Home() {
       </section>
       <section className="metrics" aria-label="Estado do MVP">
         <article><span>Fonte atual</span><strong>API-Football</strong><small>adaptador ativo</small></article>
-        <article><span>Temporada teste</span><strong>2024</strong><small>plano gratuito</small></article>
+        <article><span>Temporada</span><strong>Atual</strong><small>partidas em andamento</small></article>
         <article><span>Dados disponíveis</span><strong>Partidas</strong><small>placares e estádios</small></article>
         <article><span>Próxima camada</span><strong>Modelos</strong><small>probabilidades próprias</small></article>
       </section>
       <section className="section-heading">
-        <div><span className="kicker">Primeira rodada · 2024</span><h2>Partidas para validar a integração</h2></div>
+        <div><span className="kicker">Hoje · dados reais</span><h2>Partidas da temporada atual</h2></div>
         <Link className="text-link" href="/partidas">Ver todas as opções <span>→</span></Link>
       </section>
       <FixturesPanel compact />

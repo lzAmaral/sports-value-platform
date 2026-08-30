@@ -12,15 +12,17 @@ modelos probabilísticos próprios e comparação com odds licenciadas.
 
 - Interface Next.js em português com visão geral, partidas e explicação do MVP.
 - API NestJS com contrato próprio para partidas brasileiras.
-- Adaptador da API-Football para Série A, Série B e Copa do Brasil.
+- Fonte pública da ESPN para partidas da temporada atual, inclusive ao vivo.
+- Adaptador da API-Football para consultas históricas de Série A, Série B e Copa do Brasil.
 - Validação em runtime das respostas externas.
 - PostgreSQL e Redis disponíveis no ambiente local.
 - Núcleo Python derivado do `sports-betting` para dados, avaliação e backtests.
 - CI para TypeScript, builds web/API e suíte Python.
 
-O plano gratuito testado da API-Football permite temporadas brasileiras de
-2022 a 2024. Para o Brasileirão 2024, há partidas, eventos, escalações,
-estatísticas e classificação; odds não estão liberadas nesse plano.
+A tela consulta automaticamente a data e a temporada atuais. Em 30 de agosto
+de 2026, a integração pública retornou seis partidas reais da Série A, incluindo
+jogos em andamento. A API-Football continua disponível para o histórico aceito
+pelo plano configurado, mas não limita mais a experiência principal a 2024.
 
 ## Estrutura
 

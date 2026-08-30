@@ -10,21 +10,23 @@ const competitions = [
 ] as const;
 
 export function FixturesPanel({ compact = false }: { compact?: boolean }) {
+  const today = dateInSaoPaulo(0);
+  const currentSeason = Number(today.slice(0, 4));
   const [competition, setCompetition] = useState('brasileirao-serie-a');
-  const [from, setFrom] = useState('2024-04-13');
-  const [to, setTo] = useState('2024-04-14');
+  const [from, setFrom] = useState(today);
+  const [to, setTo] = useState(compact ? today : dateInSaoPaulo(7));
   const [fixtures, setFixtures] = useState<FootballFixture[]>([]);
   const [state, setState] = useState<'loading' | 'ready' | 'error'>('loading');
   const load = useCallback(async () => {
     setState('loading');
     try {
-      setFixtures(await fetchFixtures({ competition, season: 2024, from, to }));
+      setFixtures(await fetchFixtures({ competition, season: currentSeason, from, to }));
       setState('ready');
     } catch {
       setFixtures([]);
       setState('error');
     }
-  }, [competition, from, to]);
+  }, [competition, currentSeason, from, to]);
   useEffect(() => { void load(); }, [load]);
   const visibleFixtures = compact ? fixtures.slice(0, 4) : fixtures;
 
@@ -36,13 +38,20 @@ export function FixturesPanel({ compact = false }: { compact?: boolean }) {
         <label><span>Data final</span><input type="date" value={to} onChange={(event) => setTo(event.target.value)} /></label>
         <button className="filter-button" type="button" onClick={() => void load()}>Atualizar</button>
       </div>}
-      <div className="module-meta"><div><i className={`connection-dot ${state}`} /><span>{statusText(state, fixtures.length)}</span></div><span>API-Football · temporada 2024</span></div>
+      <div className="module-meta"><div><i className={`connection-dot ${state}`} /><span>{statusText(state, fixtures.length)}</span></div><span>Dados atuais · temporada {currentSeason}</span></div>
       {state === 'loading' && <FixtureSkeleton count={compact ? 4 : 6} />}
       {state === 'error' && <div className="empty-state"><strong>Não foi possível carregar as partidas.</strong><p>Confirme se a API NestJS está rodando na porta 3001.</p><button type="button" onClick={() => void load()}>Tentar novamente</button></div>}
-      {state === 'ready' && visibleFixtures.length === 0 && <div className="empty-state"><strong>Nenhuma partida encontrada.</strong><p>Escolha outro período dentro das temporadas 2022 a 2024.</p></div>}
+      {state === 'ready' && visibleFixtures.length === 0 && <div className="empty-state"><strong>Nenhuma partida encontrada.</strong><p>Escolha outro período da temporada atual.</p></div>}
       {state === 'ready' && visibleFixtures.length > 0 && <div className="fixture-grid">{visibleFixtures.map((fixture) => <FixtureCard fixture={fixture} key={fixture.providerId} />)}</div>}
     </section>
   );
+}
+
+function dateInSaoPaulo(dayOffset: number): string {
+  const date = new Date(Date.now() + dayOffset * 86_400_000);
+  return new Intl.DateTimeFormat('en-CA', {
+    year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'America/Sao_Paulo',
+  }).format(date);
 }
 
 function FixtureCard({ fixture }: { fixture: FootballFixture }) {

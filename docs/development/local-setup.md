@@ -61,12 +61,12 @@ npm run dev
 Consulta de teste:
 
 ```bash
-curl 'http://localhost:3001/v1/football/fixtures?competition=brasileirao-serie-a&season=2024&from=2024-04-13&to=2024-04-14'
+curl 'http://localhost:3001/v1/football/fixtures?competition=brasileirao-serie-a&season=2026&from=2026-08-30&to=2026-08-30'
 ```
 
-No teste de 30 de agosto de 2026, o plano gratuito aceitou temporadas
-brasileiras de 2022 a 2024 e rejeitou 2026. Use 2024 no MVP local enquanto o
-plano da conta não mudar.
+Para a temporada atual, a API usa a fonte pública da ESPN e inclui partidas em
+andamento. No teste de 30 de agosto de 2026, a Série A retornou seis partidas do
+dia. Temporadas anteriores usam a API-Football conforme a cobertura da chave.
 
 ## 5. Núcleo Python
 
