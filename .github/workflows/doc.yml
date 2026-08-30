@@ -16,20 +16,13 @@ concurrency:
 
 jobs:
 
-  doc:
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
 
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-
-    - name: Setup Pages
-      uses: actions/configure-pages@v5
 
     - name: Set up PDM
       uses: pdm-project/setup-pdm@v4
@@ -44,9 +37,34 @@ jobs:
       run: pdm docs build
 
     - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: documentation-site
+        path: site/
+
+  deploy:
+
+    if: ${{ vars.DEPLOY_GITHUB_PAGES == 'true' }}
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Setup Pages
+      uses: actions/configure-pages@v5
+
+    - name: Download documentation
+      uses: actions/download-artifact@v4
+      with:
+        name: documentation-site
+        path: site/
+
+    - name: Upload Pages artifact
       uses: actions/upload-pages-artifact@v5
       with:
-        path: 'site'
+        path: site/
 
     - name: Deploy to GitHub Pages
       id: deployment
