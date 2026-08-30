@@ -50,3 +50,14 @@ Status: accepted.
 PostgreSQL will store canonical events, observed odds, model versions,
 immutable signals, users and subscriptions. Redis is reserved for queues,
 short-lived cache and job coordination; it is not the source of truth.
+
+## ADR-007 — API-Football for Brazilian MVP validation
+
+Status: accepted for development and MVP validation.
+
+API-Football supplies current Brazilian competition fixtures through a provider
+adapter in the NestJS API. The adapter converts vendor payloads to canonical
+football types and keeps the API key server-side. This decision does not approve
+commercial redistribution: provider terms and the required commercial plan must
+be reviewed before a public launch. Historical training data remains a separate
+ingestion concern.
