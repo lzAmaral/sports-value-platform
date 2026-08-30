@@ -18,6 +18,8 @@ bookmaker, hold customer funds or place bets automatically in the MVP.
 - [Delivery roadmap](docs/product/roadmap.md)
 - [Architecture decisions](docs/product/decisions.md)
 - [Local development](docs/development/local-setup.md)
+- [Engineering and TypeScript standard](docs/engineering/architecture-standards.md)
+- [Opta provider assessment](docs/product/provider-research/opta.md)
 
 ## Technical foundation
 
