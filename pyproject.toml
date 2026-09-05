@@ -57,7 +57,7 @@ football = [
     "penaltyblog>=1.12,<2",
 ]
 mcp = [
-    "mcp>=1.2,<2",
+    "mcp>=1.2,<3",
 ]
 execution = [
     "playwright>=1.57",
